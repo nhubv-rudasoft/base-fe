@@ -5,7 +5,7 @@ import { useAuth } from '@/auth/hooks/authHook';
 import { MainView } from '@/shared/components/layout/MainView';
 import { LoadingFallback } from '@/shared/components/partials/LoadingFallback';
 import { ErrorFallback } from '@/shared/components/partials/ErrorFallback';
-import { privateRoutes, RouterConfig } from './config';
+import { privateRoutes, RouterConfig } from './routes';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;

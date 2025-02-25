@@ -5,9 +5,13 @@ import { PiBellSimple, PiGearSix } from 'react-icons/pi';
 import logo from '/vite.svg';
 import { appName } from '@/config/env';
 import { DropdownDivider, DropdownItem, DropdownMenu } from '../common/DropdownMenu';
+import { useNavigate } from 'react-router-dom';
+import { AppConstants } from '@/config/constants';
+
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [settings, setSettings] = useSettings();
+  const navigate = useNavigate();
 
   const handleScroll = useCallback(() => {
     const scrollPosition = window.scrollY;
@@ -24,6 +28,11 @@ export default function Header() {
       ...settings,
       isOpenSidebar: !settings.isOpenSidebar,
     });
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem(AppConstants.SYSTEM_SETTINGS.JWT_TOKEN);
+    navigate('/auth/login');
   };
 
   return (
@@ -82,15 +91,11 @@ export default function Header() {
             align='right'
             width={180}
             offset={12}
-            onOpenChange={(isOpen) => console.log('Dropdown is:', isOpen ? 'open' : 'closed')}
           >
-            <DropdownItem onClick={() => console.log('Profile clicked')}>Profile</DropdownItem>
-            <DropdownItem onClick={() => console.log('Settings clicked')}>Settings</DropdownItem>
+            <DropdownItem onClick={() => navigate('/user')}>Profile</DropdownItem>
+            <DropdownItem onClick={() => navigate('/settings')}>Settings</DropdownItem>
             <DropdownDivider />
-            <DropdownItem
-              onClick={() => console.log('Logout clicked')}
-              className='text-red-600 hover:bg-red-50'
-            >
+            <DropdownItem onClick={handleLogout} className='text-red-600 hover:bg-red-50'>
               Logout
             </DropdownItem>
           </DropdownMenu>

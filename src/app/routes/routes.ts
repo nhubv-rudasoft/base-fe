@@ -1,7 +1,7 @@
 import { JSX, lazy } from 'react';
 import LoginPage from '@/auth/LoginPage';
 import RegisterPage from '@/auth/RegisterPage';
-
+import userRoutes from '@/features/user/routes';
 export interface RouterConfig {
   path: string;
   element: (() => JSX.Element) | React.LazyExoticComponent<() => JSX.Element>;
@@ -21,16 +21,7 @@ export const privateRoutes: RouterConfig[] = [
     title: 'Dashboard',
     isLazy: true,
   },
-  {
-    path: 'user',
-    element: lazy(() =>
-      import('@/features/user/UserPage').then((module) => ({
-        default: module.default,
-      })),
-    ),
-    title: 'User profile',
-    isLazy: true,
-  },
+  ...userRoutes,
 ] as const;
 
 // Public routes
