@@ -7,11 +7,14 @@ import { appName } from '@/config/env';
 import { DropdownDivider, DropdownItem, DropdownMenu } from '../common/DropdownMenu';
 import { useNavigate } from 'react-router-dom';
 import { AppConstants } from '@/config/constants';
+import { useProfile } from '@/features/user/hooks/userHook';
+import { getFirstChar } from '@/utils/string-utils';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [settings, setSettings] = useSettings();
   const navigate = useNavigate();
+  const { profile } = useProfile();
 
   const handleScroll = useCallback(() => {
     const scrollPosition = window.scrollY;
@@ -34,6 +37,7 @@ export default function Header() {
     localStorage.removeItem(AppConstants.SYSTEM_SETTINGS.JWT_TOKEN);
     navigate('/auth/login');
   };
+
 
   return (
     <header
@@ -74,7 +78,8 @@ export default function Header() {
           </button>
 
           {/* Profile Dropdown */}
-          <DropdownMenu
+          {profile && (
+            <DropdownMenu
             trigger={
               <button
                 type='button'
@@ -84,7 +89,7 @@ export default function Header() {
                 className='flex cursor-pointer items-center gap-2 rounded-lg p-2 text-gray-600 hover:bg-gray-100'
               >
                 <span className='flex h-8 w-8 items-center justify-center rounded-full bg-yellow-500 text-sm font-semibold text-white'>
-                  J
+                  {getFirstChar(profile.firstName)}
                 </span>
               </button>
             }
@@ -99,6 +104,8 @@ export default function Header() {
               Logout
             </DropdownItem>
           </DropdownMenu>
+          )}
+          
         </div>
       </div>
     </header>
