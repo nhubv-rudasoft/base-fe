@@ -35,40 +35,6 @@ const fakeTransactions = [
     status: 'Failed',
   },
 ];
-
-const bankExchangeRates = [
-  {
-    currency: 'USD',
-    buy: 1.5,
-    sell: 1.6,
-    atBank: 'ACB',
-  },
-  {
-    currency: 'EUR',
-    buy: 1.7,
-    sell: 1.8,
-    atBank: 'ACB',
-  },
-  {
-    currency: 'GBP',
-    buy: 2.5,
-    sell: 2.6,
-    atBank: 'ACB',
-  },
-  {
-    currency: 'AUD',
-    buy: 1.1,
-    sell: 1.2,
-    atBank: 'ACB',
-  },
-  {
-    currency: 'CAD',
-    buy: 1.3,
-    sell: 1.4,
-    atBank: 'ACB',
-  },
-];
-
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState('Overview');
 
