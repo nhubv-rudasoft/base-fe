@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import IncomingWidget from './components/IncomingWidget';
-import OutgoingWidget from './components/OutgoingWidget';
-import BalanceWidget from './components/BalanceWidget';
+import IncomingWidget from '../components/IncomingWidget.tsx';
+import OutgoingWidget from '../components/OutgoingWidget.tsx';
+import BalanceWidget from '../components/BalanceWidget.tsx';
 
 const fakeTransactions = [
   {

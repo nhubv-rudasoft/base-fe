@@ -4,8 +4,9 @@ import axios, {
   AxiosRequestConfig,
   InternalAxiosRequestConfig,
 } from 'axios';
-import { apiURL } from './env.ts';
+import { API_URL } from './env.ts';
 import { getJwtToken } from '@/auth/services/authService';
+import { notify } from '@/shared/components/partials/Notification';
 
 export type RequestHeaders = Record<string, string>;
 
@@ -26,7 +27,7 @@ const GetRequestHeader = (headers?: RequestHeaders): AxiosHeaders => {
 };
 
 export const instance = axios.create({
-  baseURL: apiURL,
+  baseURL: API_URL,
   timeout: 10 * 60 * 1000, // 10 minutes
   headers: {
     'Content-Type': 'application/json;charset=utf-8',
@@ -47,7 +48,9 @@ instance.interceptors.response.use(
   },
   async function (error) {
     // Extract the error message
-    // const errorMessage = error.response?.data?.message || error.message || 'An unexpected error occurred';
+    const errorMessage =
+      error.response?.data?.message || error.message || 'An unexpected error occurred';
+    notify('error', { message: errorMessage });
     return Promise.reject(error);
   },
 );

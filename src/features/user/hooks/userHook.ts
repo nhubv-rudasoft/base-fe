@@ -1,9 +1,14 @@
-import { useQueryBase } from '@/shared/hooks/queryBaseHook.ts';
-import { getUserProfile } from '@/features/user/services/userService.ts';
+import { useMutationBase, useQueryBase } from '@/shared/hooks/queryBaseHook.ts';
+import {
+  getUserProfile,
+  updateUserAvatar,
+  updateUserProfile,
+} from '@/features/user/services/userService.ts';
 import { useAppDispatch, useAppSelector } from '@/app/store/appStoreHook';
 import { setProfile } from '@/features/user/slices/userSlice.ts';
+import { UserUpdateAvatarRequest, UserUpdateProfileRequest } from '../types';
 
-export const useProfile = () => {
+export const useGetUserProfile = () => {
   const dispatch = useAppDispatch();
   const profileState = useAppSelector((AppRootState) => AppRootState.user.profile);
 
@@ -19,5 +24,39 @@ export const useProfile = () => {
     isLoading: query.isPending,
     isError: query.isError,
     error: query.error,
+  };
+};
+
+export const useUpdateUserProfile = () => {
+  const dispatch = useAppDispatch();
+  const mutation = useMutationBase<any, { payload: UserUpdateProfileRequest }>(
+    async ({ payload }) => {
+      const data = await updateUserProfile(payload);
+      dispatch(setProfile(data.body));
+      return data;
+    },
+  );
+
+  return {
+    mutation,
+    isLoading: mutation.isPending,
+    isError: mutation.isError,
+    error: mutation.error,
+  };
+};
+
+export const useUpdateUserAvatar = () => {
+  const mutation = useMutationBase<any, { payload: UserUpdateAvatarRequest }>(
+    async ({ payload }) => {
+      const data = await updateUserAvatar(payload);
+      return data;
+    },
+  );
+
+  return {
+    mutation,
+    isLoading: mutation.isPending,
+    isError: mutation.isError,
+    error: mutation.error,
   };
 };

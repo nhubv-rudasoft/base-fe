@@ -1,5 +1,6 @@
 export interface BaseResponse<T> {
-  message: string;
-  status: number;
+  responseCode: '200' | '400' | '401' | '403' | '404' | '500';
+  responseMessage: string;
+  responseEntityMessages: any[];
   body: T;
 }

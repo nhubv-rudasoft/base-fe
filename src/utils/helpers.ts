@@ -1,2 +1,0 @@
-// Description: Common helper functions.
-

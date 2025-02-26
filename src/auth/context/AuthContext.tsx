@@ -4,9 +4,11 @@ import { LoginRequest } from '../types';
 import { signIn } from '../services/authService';
 import { getJwtToken } from '../services/authService';
 import { AppConstants } from '@/config/constants';
+import { notify } from '@/shared/components/partials/Notification';
 
 interface AuthContextType {
   isAuthenticated: boolean;
+  setAuthenticated: (value: boolean) => void;
   loginUser: (payload: LoginRequest) => void;
   logoutUser: () => void;
 }
@@ -19,15 +21,26 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const loginUser = async (payload: LoginRequest) => {
     const response = await signIn(payload);
-    localStorage.setItem(AppConstants.SYSTEM_SETTINGS.JWT_TOKEN, response.body.accessToken);
-    setIsAuthenticated(true);
-    navigate(AppConstants.SYSTEM_SETTINGS.AFTER_LOGIN_REDIRECT_PATH);
+    if (response.responseCode === '200') {
+      localStorage.setItem(AppConstants.SYSTEM_SETTINGS.JWT_TOKEN, response.body.accessToken);
+      setIsAuthenticated(true);
+      navigate(AppConstants.SYSTEM_SETTINGS.AFTER_LOGIN_REDIRECT_PATH);
+    } else {
+      notify('error', { message: response.responseMessage });
+    }
   };
 
-  const logoutUser = () => setIsAuthenticated(false);
+  const setAuthenticated = (value: boolean) => {
+    setIsAuthenticated(value);
+  };
+
+  const logoutUser = () => {
+    setIsAuthenticated(false);
+    localStorage.removeItem(AppConstants.SYSTEM_SETTINGS.JWT_TOKEN);
+  };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, loginUser, logoutUser }}>
+    <AuthContext.Provider value={{ setAuthenticated, isAuthenticated, loginUser, logoutUser }}>
       {children}
     </AuthContext.Provider>
   );

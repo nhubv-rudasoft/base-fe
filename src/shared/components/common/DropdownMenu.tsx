@@ -123,7 +123,7 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
             position: 'absolute',
             top: `${position.top}px`,
             left: `${position.left}px`,
-            width: typeof width === 'number' ? `${width}px` : width,
+            width: `${width}px`,
           }}
           className={`z-50 transform rounded-xl bg-white py-1 shadow-lg transition-transform duration-150 ${
             position.placement === 'top' ? 'origin-bottom' : 'origin-top'

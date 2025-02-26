@@ -2,10 +2,10 @@ import { Outlet } from 'react-router-dom';
 import { useEffect } from 'react';
 import Aside from './Aside';
 import Header from './Header';
-import { useProfile } from '@/features/user/hooks/userHook';
+import { useGetUserProfile } from '@/features/user/hooks/userHook';
 
 export function MainView() {
-  const { query } = useProfile();
+  const { query } = useGetUserProfile();
 
   useEffect(() => {
     query.refetch();

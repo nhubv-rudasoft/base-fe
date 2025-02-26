@@ -6,6 +6,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { queryClient } from '@/config/queryClient';
 import { appStore } from '@/app/store/appRootStore';
 import { ErrorFallback } from '@/shared/components/partials/ErrorFallback';
+import { ToastProvider } from '@/shared/components/partials/Notification/ToastProvider';
 
 interface AppProvidersProps {
   children: React.ReactNode;
@@ -16,6 +17,7 @@ export const AppProviders = ({ children }: AppProvidersProps) => {
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Provider store={appStore}>
         <QueryClientProvider client={queryClient}>
+          <ToastProvider />
           <BrowserRouter>{children}</BrowserRouter>
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>

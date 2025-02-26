@@ -3,18 +3,19 @@ import { useCallback, useState, useEffect } from 'react';
 import { HiMiniBars3BottomLeft } from 'react-icons/hi2';
 import { PiBellSimple, PiGearSix } from 'react-icons/pi';
 import logo from '/vite.svg';
-import { appName } from '@/config/env';
+import { APP_NAME } from '@/config/env';
 import { DropdownDivider, DropdownItem, DropdownMenu } from '../common/DropdownMenu';
 import { useNavigate } from 'react-router-dom';
-import { AppConstants } from '@/config/constants';
-import { useProfile } from '@/features/user/hooks/userHook';
+import { useGetUserProfile } from '@/features/user/hooks/userHook';
 import { getFirstChar } from '@/utils/string-utils';
+import { useAuth } from '@/auth/hooks/authHook';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [settings, setSettings] = useSettings();
   const navigate = useNavigate();
-  const { profile } = useProfile();
+  const { profile } = useGetUserProfile();
+  const { logoutUser } = useAuth();
 
   const handleScroll = useCallback(() => {
     const scrollPosition = window.scrollY;
@@ -34,10 +35,8 @@ export default function Header() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem(AppConstants.SYSTEM_SETTINGS.JWT_TOKEN);
-    navigate('/auth/login');
+    logoutUser();
   };
-
 
   return (
     <header
@@ -53,7 +52,7 @@ export default function Header() {
           >
             <HiMiniBars3BottomLeft size={28} className='font-semibold text-gray-600' />
           </button>
-          <img src={logo} alt={appName} className='h-8 w-auto lg:hidden' />
+          <img src={logo} alt={APP_NAME} className='h-8 w-auto lg:hidden' />
         </div>
 
         {/* Right section */}
@@ -80,32 +79,31 @@ export default function Header() {
           {/* Profile Dropdown */}
           {profile && (
             <DropdownMenu
-            trigger={
-              <button
-                type='button'
-                aria-label='Profile'
-                aria-expanded='false'
-                aria-haspopup='true'
-                className='flex cursor-pointer items-center gap-2 rounded-lg p-2 text-gray-600 hover:bg-gray-100'
-              >
-                <span className='flex h-8 w-8 items-center justify-center rounded-full bg-yellow-500 text-sm font-semibold text-white'>
-                  {getFirstChar(profile.firstName)}
-                </span>
-              </button>
-            }
-            align='right'
-            width={180}
-            offset={12}
-          >
-            <DropdownItem onClick={() => navigate('/user')}>Profile</DropdownItem>
-            <DropdownItem onClick={() => navigate('/settings')}>Settings</DropdownItem>
-            <DropdownDivider />
-            <DropdownItem onClick={handleLogout} className='text-red-600 hover:bg-red-50'>
-              Logout
-            </DropdownItem>
-          </DropdownMenu>
+              trigger={
+                <button
+                  type='button'
+                  aria-label='Profile'
+                  aria-expanded='false'
+                  aria-haspopup='true'
+                  className='flex cursor-pointer items-center gap-2 rounded-lg p-2 text-gray-600 hover:bg-gray-100'
+                >
+                  <span className='flex h-8 w-8 items-center justify-center rounded-full bg-yellow-500 text-sm font-semibold text-white'>
+                    {getFirstChar(profile.firstName)}
+                  </span>
+                </button>
+              }
+              align='right'
+              width={180}
+              offset={12}
+            >
+              <DropdownItem onClick={() => navigate('/profile')}>Profile</DropdownItem>
+              <DropdownItem onClick={() => navigate('/settings')}>Settings</DropdownItem>
+              <DropdownDivider />
+              <DropdownItem onClick={handleLogout} className='text-red-600 hover:bg-red-50'>
+                Logout
+              </DropdownItem>
+            </DropdownMenu>
           )}
-          
         </div>
       </div>
     </header>

@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { publicRoutes, RouterConfig } from './routes';
+import { publicRoutes } from './routes';
+import { RouterConfig } from '@/shared/types/routerType';
 
 const isAuthenticated = () => !!localStorage.getItem('accessToken');
 

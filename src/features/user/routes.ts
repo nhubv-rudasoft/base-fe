@@ -1,12 +1,12 @@
-import { lazy } from 'react';
-import { RouterConfig } from '@/app/routes/routes';
+import UserPage from '@/features/user/pages/UserPage.tsx';
+import { RouterConfig } from '@/shared/types/routerType';
 
 const userRoutes: RouterConfig[] = [
   {
-    path: 'user',
-    element: lazy(() => import('./UserPage').then((module) => ({ default: module.default }))),
-    title: 'User',
-    isLazy: true,
+    path: 'profile',
+    element: UserPage,
+    title: 'Profile',
+    isLazy: false,
   },
 ];
 

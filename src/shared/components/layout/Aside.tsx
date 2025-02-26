@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import logo from '/vite.svg';
 import { PiPeaceLight } from 'react-icons/pi';
@@ -9,7 +9,7 @@ import { GrHistory } from 'react-icons/gr';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { FiSearch } from 'react-icons/fi';
 import { useSettings } from '@/features/settings/hooks/settingsHook';
-import { appName } from '@/config/env';
+import { APP_NAME } from '@/config/env';
 
 interface MenuItem {
   id: string;
@@ -176,9 +176,9 @@ export default function Aside() {
         <div className='flex h-full flex-col gap-4 overflow-y-auto px-4 py-6'>
           {/* Logo or Brand */}
           <div className='flex items-center px-2'>
-            <img src={logo} alt={appName} className='h-8 w-auto' />
+            <img src={logo} alt={APP_NAME} className='h-8 w-auto' />
             <span className='ml-2 text-sm leading-4 font-extrabold text-black'>
-              {appName.split(' ').map((line: string, index: number) => (
+              {APP_NAME.split(' ').map((line: string, index: number) => (
                 <span key={index}>
                   {line}
                   <br />

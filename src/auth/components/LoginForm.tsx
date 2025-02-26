@@ -5,6 +5,7 @@ import * as yup from 'yup';
 import { LoginRequest } from '../types';
 import { Link } from 'react-router-dom';
 import { FaGoogle } from 'react-icons/fa6';
+import { OAUTH2_GOOGLE_URL } from '@/config/env.ts';
 
 const schema = yup.object().shape({
   email: yup.string().email('Invalid email').required('Email is required'),
@@ -13,14 +14,21 @@ const schema = yup.object().shape({
 
 export function LoginForm() {
   const { loginUser } = useAuth();
+  const form = useForm<LoginRequest>({ resolver: yupResolver(schema) });
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) });
+  } = form;
 
+  // Submit user credentials
   const onSubmit = (data: LoginRequest) => {
     loginUser(data);
+  };
+
+  // Login with Google
+  const onGotoGoogle = () => {
+    window.location.href = OAUTH2_GOOGLE_URL;
   };
 
   return (
@@ -63,6 +71,7 @@ export function LoginForm() {
           </button>
 
           <button
+            onClick={onGotoGoogle}
             type='button'
             className='flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border bg-white px-4 py-2 text-sm text-gray-500 hover:bg-gray-50'
           >
