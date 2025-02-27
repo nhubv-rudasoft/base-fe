@@ -11,15 +11,19 @@ interface AuthContextType {
   setAuthenticated: (value: boolean) => void;
   loginUser: (payload: LoginRequest) => void;
   logoutUser: () => void;
+  isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!getJwtToken());
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const loginUser = async (payload: LoginRequest) => {
+    setIsLoading(true);
     const response = await signIn(payload);
     if (response.responseCode === '200') {
       localStorage.setItem(AppConstants.SYSTEM_SETTINGS.JWT_TOKEN, response.body.accessToken);
@@ -28,6 +32,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     } else {
       notify('error', { message: response.responseMessage });
     }
+    setIsLoading(false);
   };
 
   const setAuthenticated = (value: boolean) => {
@@ -40,7 +45,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ setAuthenticated, isAuthenticated, loginUser, logoutUser }}>
+    <AuthContext.Provider value={{ setAuthenticated, isAuthenticated, loginUser, logoutUser, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

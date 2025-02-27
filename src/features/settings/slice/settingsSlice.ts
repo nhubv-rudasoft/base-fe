@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Settings, SettingsState } from '@/auth/types';
 import { AppConstants } from '@/config/constants.ts';
+import { Settings, SettingsState } from '../types/settings';
 
 const initialState: SettingsState = {
   isOpenSidebar:

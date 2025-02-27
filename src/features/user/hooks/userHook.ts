@@ -8,6 +8,10 @@ import { useAppDispatch, useAppSelector } from '@/app/store/appStoreHook';
 import { setProfile } from '@/features/user/slices/userSlice.ts';
 import { UserUpdateAvatarRequest, UserUpdateProfileRequest } from '../types';
 
+/**
+ * Get user profile
+ * @returns query, profile, isLoading, isError, error
+ */
 export const useGetUserProfile = () => {
   const dispatch = useAppDispatch();
   const profileState = useAppSelector((AppRootState) => AppRootState.user.profile);
@@ -27,6 +31,10 @@ export const useGetUserProfile = () => {
   };
 };
 
+/**
+ * Update user profile
+ * @returns mutation, isLoading, isError, error
+ */
 export const useUpdateUserProfile = () => {
   const dispatch = useAppDispatch();
   const mutation = useMutationBase<any, { payload: UserUpdateProfileRequest }>(
@@ -45,6 +53,10 @@ export const useUpdateUserProfile = () => {
   };
 };
 
+/**
+ * Update user avatar
+ * @returns mutation, isLoading, isError, error
+ */
 export const useUpdateUserAvatar = () => {
   const mutation = useMutationBase<any, { payload: UserUpdateAvatarRequest }>(
     async ({ payload }) => {
