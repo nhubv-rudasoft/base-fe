@@ -16,7 +16,8 @@ const GetRequestHeader = (headers?: RequestHeaders): AxiosHeaders => {
   const requestHeaders: {
     [key: string]: string;
   } = {
-    'Accept-Language': `en`,
+    Accept: 'application/json, text/plain, */*',
+    'Accept-Language': 'en',
     ...(headers ?? {}),
   };
 

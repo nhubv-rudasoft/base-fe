@@ -139,6 +139,7 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
 interface DropdownItemProps extends React.HTMLAttributes<HTMLDivElement> {
   icon?: React.ReactNode;
   disabled?: boolean;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 export const DropdownItem: React.FC<DropdownItemProps> = ({

@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useGetUserProfile, useUpdateUserAvatar, useUpdateUserProfile } from '../hooks/userHook';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { UserUpdateAvatarRequest, UserUpdateProfileRequest } from '../types';
 import { IoCameraReverseOutline } from 'react-icons/io5';
 import { getFirstChar } from '@/utils/string-utils';
@@ -17,8 +17,8 @@ const schema = yup.object().shape({
 });
 
 export default function UserProfileForm() {
-
   const { profile } = useGetUserProfile();
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
 
   // Mutations
   const { mutation: updateProfileMutation } = useUpdateUserProfile();
@@ -52,17 +52,27 @@ export default function UserProfileForm() {
   useEffect(() => {
     if (profile) {
       getFileMutation.mutate({ fileId: profile.photoId });
-
-      console.log(avatarData);
-      if (avatarData) {
-        const objectURL = URL.createObjectURL(avatarData);
-        console.log(objectURL);
-      }
-
       form.reset(profile);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form, profile]);
+
+  useEffect(() => {
+    if (avatarData) {
+      if (avatarData instanceof Blob) {
+        //revoke the previous url
+        if (avatarUrl) {
+          URL.revokeObjectURL(avatarUrl);
+        }
+        const objectURL = URL.createObjectURL(avatarData);
+        setAvatarUrl(objectURL);
+      } else {
+        setAvatarUrl(null);
+      }
+    } else {
+      setAvatarUrl(null);
+    }
+  }, [avatarData]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -77,11 +87,27 @@ export default function UserProfileForm() {
               size={24}
               className='absolute z-10 hidden text-2xl text-white group-hover:block'
             />
-            {profile?.avatar == null && (
+            {(profile?.avatar == null || !avatarData) && (
               <span className='text-2xl text-white uppercase'>
                 {getFirstChar(profile?.firstName || '')}
               </span>
             )}
+            {avatarData && (
+              <img
+                src={avatarUrl || ''}
+                alt='avatar'
+                className='h-full w-full rounded-full object-cover'
+              />
+            )}
+
+            {!avatarData && profile?.avatar && (
+              <img
+                src={profile?.avatar}
+                alt='avatar'
+                className='h-full w-full rounded-full border border-orange-900 object-cover hover:border-orange-500'
+              />
+            )}
+
             <input
               type='file'
               className='hidden'
@@ -97,11 +123,7 @@ export default function UserProfileForm() {
             error={errors.firstName?.message}
             {...register('firstName')}
           />
-          <TextInput
-            label='Last Name'
-            error={errors.lastName?.message}
-            {...register('lastName')}
-          />
+          <TextInput label='Last Name' error={errors.lastName?.message} {...register('lastName')} />
         </div>
 
         <TextInput

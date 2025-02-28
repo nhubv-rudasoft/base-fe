@@ -7,10 +7,12 @@ import { queryClient } from '@/config/queryClient';
 import { appStore } from '@/app/store/appRootStore';
 import { ErrorFallback } from '@/shared/components/partials/ErrorFallback';
 import { ToastProvider } from '@/shared/components/partials/Notification/ToastProvider';
-
+import { ENV_NAME } from '@/config/env';
 interface AppProvidersProps {
   children: React.ReactNode;
 }
+
+const isDev = ENV_NAME === 'dev';
 
 export const AppProviders = ({ children }: AppProvidersProps) => {
   return (
@@ -19,7 +21,7 @@ export const AppProviders = ({ children }: AppProvidersProps) => {
         <QueryClientProvider client={queryClient}>
           <ToastProvider />
           <BrowserRouter>{children}</BrowserRouter>
-          <ReactQueryDevtools initialIsOpen={false} />
+          {isDev && <ReactQueryDevtools initialIsOpen={false} />}
         </QueryClientProvider>
       </Provider>
     </ErrorBoundary>

@@ -11,46 +11,49 @@ export interface TextInputProps extends Omit<InputHTMLAttributes<HTMLInputElemen
   className?: string;
   inputClassName?: string;
   labelClassName?: string;
+  onBlur?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
-  ({
-    label,
-    type,
-    value,
-    icon,
-    onChange,
-    error,
-    helperText,
-    className,
-    inputClassName,
-    labelClassName,
-    ...rest
-  }, ref) => (
+  (
+    {
+      label,
+      type,
+      value,
+      icon,
+      onChange,
+      error,
+      helperText,
+      className,
+      inputClassName,
+      labelClassName,
+      onBlur,
+      ...rest
+    },
+    ref,
+  ) => (
     <div className={`flex flex-col gap-1.5 ${className || ''}`}>
-      <label className={`text-sm font-medium ${labelClassName || ''}`}>
-        {label}
-      </label>
+      <label className={`text-sm font-medium ${labelClassName || ''}`}>{label}</label>
       <div className='flex items-center'>
         {icon}
         <input
           ref={ref}
           type={type || 'text'}
-          className={`w-full h-10 rounded-sm border border-gray-300 bg-white py-2 px-3 text-sm ${error ? 'border border-red-500' : ''} ${inputClassName || ''}`}
+          className={`h-10 w-full rounded-sm border border-gray-300 bg-white px-3 py-2 text-sm ${error ? 'border border-red-500' : ''} ${inputClassName || ''}`}
           value={value}
           onChange={(e) => {
             if (onChange) {
-              // @ts-ignore - This allows both our custom handler and React Hook Form handler
-              onChange(e);
+              onChange(e as any);
             }
           }}
+          onBlur={onBlur}
           {...rest}
         />
       </div>
-      {error && <p className='text-red-500 text-xs'>{error}</p>}
-      {helperText && !error && <p className='text-gray-500 text-xs'>{helperText}</p>}
+      {error && <p className='text-xs text-red-500'>{error}</p>}
+      {helperText && !error && <p className='text-xs text-gray-500'>{helperText}</p>}
     </div>
-  )
+  ),
 );
 
 TextInput.displayName = 'TextInput';

@@ -18,11 +18,7 @@ export const useQueryGetFile = (fileId: number) => {
 
 export const useMutateGetFile = () => {
   const mutation = useMutationBase<any, { fileId: number }>(async ({ fileId }) => {
-    const data: any = await getFile(fileId);
-    const blob = new Blob([data], { type: data.contentType });
-    const objectURL = URL.createObjectURL(blob);
-    console.log(objectURL);
-    return objectURL;
+    return await getFile(fileId);
   });
 
   return {

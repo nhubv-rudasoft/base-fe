@@ -53,12 +53,7 @@ export function LoginForm() {
         />
 
         <div className='flex flex-col items-center justify-center gap-4'>
-          <Button
-            type='submit'
-            size='large'
-            isLoading={isLoading}
-            disabled={isLoading}
-          >
+          <Button type='submit' size='large' isLoading={isLoading} disabled={isLoading}>
             Login
           </Button>
 
@@ -72,10 +67,7 @@ export function LoginForm() {
             Login with Google
           </Button>
 
-          <Link
-            to='/register'
-            className='text-xs text-gray-700 hover:underline'
-          >
+          <Link to='/register' className='text-xs text-gray-700 hover:underline'>
             Don&apos;t have an account? Register
           </Link>
         </div>
