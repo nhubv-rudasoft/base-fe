@@ -23,7 +23,7 @@ export const useQueryBase = <TData>(
   });
 };
 
-export const useMutationBase = <TData, TVariables>(
+export const useMutationBase = <TVariables, TData>(
   mutationFn: (variables: TVariables) => Promise<TData>,
   config?: MutationConfig<TData, AxiosError, TVariables> & {
     invalidateQueries?: QueryKey[];

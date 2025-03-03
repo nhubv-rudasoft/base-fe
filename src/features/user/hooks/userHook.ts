@@ -6,7 +6,9 @@ import {
 } from '@/features/user/services/userService.ts';
 import { useAppDispatch, useAppSelector } from '@/app/store/appStoreHook';
 import { setProfile } from '@/features/user/slices/userSlice.ts';
-import { UserUpdateAvatarRequest, UserUpdateProfileRequest } from '../types';
+import { UserProfileResponse, UserUpdateAvatarRequest, UserUpdateProfileRequest } from '../types';
+import { BaseResponse } from '@/shared/types/baseResponseType';
+import { FileType } from '@/shared/types/fileType';
 
 /**
  * Get user profile
@@ -37,13 +39,14 @@ export const useGetUserProfile = () => {
  */
 export const useUpdateUserProfile = () => {
   const dispatch = useAppDispatch();
-  const mutation = useMutationBase<any, { payload: UserUpdateProfileRequest }>(
-    async ({ payload }) => {
-      const data = await updateUserProfile(payload);
-      dispatch(setProfile(data.body));
-      return data;
-    },
-  );
+  const mutation = useMutationBase<
+    { payload: UserUpdateProfileRequest },
+    BaseResponse<UserProfileResponse>
+  >(async ({ payload }) => {
+    const data = await updateUserProfile(payload);
+    dispatch(setProfile(data.body));
+    return data;
+  });
 
   return {
     mutation,
@@ -58,9 +61,16 @@ export const useUpdateUserProfile = () => {
  * @returns mutation, isLoading, isError, error
  */
 export const useUpdateUserAvatar = () => {
-  const mutation = useMutationBase<any, { payload: UserUpdateAvatarRequest }>(
+  const dispatch = useAppDispatch();
+  const { profile } = useGetUserProfile();
+
+  const mutation = useMutationBase<{ payload: UserUpdateAvatarRequest }, BaseResponse<FileType>>(
     async ({ payload }) => {
       const data = await updateUserAvatar(payload);
+      // Update image viewer
+      const newProfile = { ...profile, photoId: Number(data.body.fileId) };
+      dispatch(setProfile(newProfile as UserProfileResponse));
+
       return data;
     },
   );

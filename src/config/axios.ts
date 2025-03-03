@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, {
   AxiosError,
   AxiosHeaders,
@@ -10,7 +11,14 @@ import { notify } from '@/shared/components/partials/Notification';
 
 export type RequestHeaders = Record<string, string>;
 
-const GetRequestHeader = (headers?: RequestHeaders): AxiosHeaders => {
+interface RequestOptions<P> {
+  params?: Record<string, any>;
+  payload?: P;
+  headers?: RequestHeaders;
+  responseType?: AxiosRequestConfig['responseType'];
+}
+
+const getRequestHeader = (headers?: RequestHeaders): AxiosHeaders => {
   const accessToken = getJwtToken();
 
   const requestHeaders: {
@@ -45,10 +53,12 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   function (response) {
+    if (response.config.responseType === 'arraybuffer' || response.config.responseType === 'blob') {
+      return response;
+    }
     return response.data;
   },
   async function (error) {
-    // Extract the error message
     const errorMessage =
       error.response?.data?.message || error.message || 'An unexpected error occurred';
     notify('error', { message: errorMessage });
@@ -56,63 +66,54 @@ instance.interceptors.response.use(
   },
 );
 
-// *************************** BEGIN:Base HTTP methods ***************************
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const Get = async <T>(url: string, params?: any, headers?: RequestHeaders): Promise<T> => {
-  const request: AxiosRequestConfig = {
-    url,
-    method: 'GET',
+export const apiGet = async <P, D>({
+  url,
+  params,
+  headers,
+  responseType = 'json',
+}: RequestOptions<P> & { url: string }): Promise<D> => {
+  const response = await instance.get<D>(url, {
+    headers: getRequestHeader(headers),
     params,
-    headers: GetRequestHeader(headers),
-  };
-  return (await instance(request)) as T;
+    responseType,
+  });
+  return response as D;
 };
 
-export const Post = async <T>(
-  url: string,
-  data?: any,
-  params?: any,
-  headers?: RequestHeaders,
-): Promise<T> => {
-  const request: AxiosRequestConfig = {
-    url,
-    method: 'POST',
-    data,
-    params,
-    headers: GetRequestHeader(headers),
-  };
-  return (await instance(request)) as T;
+export const apiPost = async <P, D>({
+  url,
+  payload,
+  headers,
+  responseType = 'json',
+}: RequestOptions<P> & { url: string }): Promise<D> => {
+  const response = await instance.post<D>(url, payload, {
+    headers: getRequestHeader(headers),
+    responseType,
+  });
+  return response as D;
 };
 
-export const Put = async <T>(
-  url: string,
-  data?: any,
-  params?: any,
-  headers?: RequestHeaders,
-): Promise<T> => {
-  const request: AxiosRequestConfig = {
-    url,
-    method: 'PUT',
-    data,
-    params,
-    headers: GetRequestHeader(headers),
-  };
-  return (await instance(request)) as T;
+export const apiPut = async <P, D>({
+  url,
+  payload,
+  headers,
+  responseType = 'json',
+}: RequestOptions<P> & { url: string }): Promise<D> => {
+  const response = await instance.put<D>(url, payload, {
+    headers: getRequestHeader(headers),
+    responseType,
+  });
+  return response as D;
 };
 
-export const Delete = async <T>(
-  url: string,
-  data?: any,
-  params?: any,
-  headers?: RequestHeaders,
-): Promise<T> => {
-  const request: AxiosRequestConfig = {
-    url,
-    method: 'DELETE',
-    data,
-    params,
-    headers: GetRequestHeader(headers),
-  };
-  return (await instance(request)) as T;
+export const apiDelete = async <P, D>({
+  url,
+  headers,
+  responseType = 'json',
+}: RequestOptions<P> & { url: string }): Promise<D> => {
+  const response = await instance.delete<D>(url, {
+    headers: getRequestHeader(headers),
+    responseType,
+  });
+  return response as D;
 };
-// *************************** END:Base HTTP methods ***************************

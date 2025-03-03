@@ -1,15 +1,15 @@
 export interface UserProfileResponse {
-  id: number;
+  id?: number;
   email: string;
   firstName: string;
   lastName: string;
-  avatar: string;
+  avatar?: string;
   provider: 'local' | 'google';
-  providerId: string;
-  photoId: number;
-  phoneNumber: string;
-  createdAt: string;
-  updatedAt: string;
+  providerId?: string;
+  photoId?: number;
+  phoneNumber?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface UserUpdateProfileRequest {

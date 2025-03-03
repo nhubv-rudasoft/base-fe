@@ -1,5 +1,7 @@
-import { Get, Post } from '@/config/axios';
-import axios from 'axios';
+import { apiGet, apiPost } from '@/config/axios';
+import { AxiosResponse } from 'axios';
+import { FileType } from '../types/fileType';
+import { BaseResponse } from '../types/baseResponseType';
 
 const API_FILE_URI = '/files';
 const API_FILE_MANAGEMENT_URI = '/file-management';
@@ -16,7 +18,11 @@ export function uploadFile(file: File) {
     'Content-Type': 'multipart/form-data',
   };
 
-  return Post(`${API_FILE_URI}/upload`, formData, null, headers);
+  return apiPost<FormData, BaseResponse<FileType>>({
+    url: `${API_FILE_URI}/upload`,
+    payload: formData,
+    headers: headers,
+  });
 }
 
 /**
@@ -25,17 +31,11 @@ export function uploadFile(file: File) {
  * @returns The file
  */
 export async function getFile(fileId: number): Promise<Blob> {
-  const response = await axios.get('http://localhost:8080/file-management/get/8', {
-    headers: {
-      'Accept': 'application/json, text/plain, */*',
-      'Accept-Language': 'en',
-      'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzQwNzI4MjI3LCJleHAiOjE3NDMzMjAyMjd9.-1OosQ476tqD-WUpkPSJ-HfJTrWRtpj-C9Sdg-wLQ0NL8Qt0I1rl6wX-igZp0kwOtp4sxxHenGkuaibPZkGaRg',
-    },
-    responseType: 'arraybuffer' // Để xử lý dữ liệu ảnh nhị phân
+  const response = await apiGet<null, AxiosResponse>({
+    url: `${API_FILE_MANAGEMENT_URI}/get/${fileId}`,
+    responseType: 'arraybuffer',
   });
-
-  // Chuyển ArrayBuffer thành Blob để hiển thị ảnh
-  return new Blob([response.data], { type: 'image/jpeg' }); // Thay type phù hợp với định dạng ảnh
+  return new Blob([response.data], { type: response.headers['content-type'] });
 }
 
 /**
@@ -44,5 +44,8 @@ export async function getFile(fileId: number): Promise<Blob> {
  * @returns The file
  */
 export function streamFile(fileId: string) {
-  return Get(`${API_FILE_MANAGEMENT_URI}/stream/${fileId}`);
+  return apiGet<null, AxiosResponse>({
+    url: `${API_FILE_MANAGEMENT_URI}/stream/${fileId}`,
+    responseType: 'arraybuffer',
+  });
 }

@@ -12,8 +12,8 @@ export const queryClient = new QueryClient({
       // refetch on mount
       refetchOnMount: true,
 
-      // retry 2 times
-      retry: 2,
+      // retry 0 times
+      retry: 0,
     },
     mutations: {
       // retry 0 times

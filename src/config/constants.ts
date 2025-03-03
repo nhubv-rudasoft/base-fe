@@ -1,10 +1,15 @@
 export class AppConstants {
   public static readonly SYSTEM_SETTINGS = {
+    AUTH_PROVIDER: {
+      LOCAL: 'local',
+      GOOGLE: 'google',
+    },
     JWT_TOKEN: 'accessToken',
     AFTER_LOGIN_REDIRECT_PATH: '/dashboard',
+    AVATAR_DEFAULT_URL: '/vite.svg',
   };
 
-  public static readonly USER_SETTINGS = 'APP_SETTINGS';
+  public static readonly USER_SETTINGS_PREFIX = 'APP_SETTINGS';
 
   public static readonly PAGINATION = {
     PAGE_SIZE: 10,

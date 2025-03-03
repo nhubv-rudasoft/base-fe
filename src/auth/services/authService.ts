@@ -1,4 +1,4 @@
-import { Post } from '@/config/axios.ts';
+import { apiPost } from '@/config/axios.ts';
 import { BaseResponse } from '@/shared/types/baseResponseType.ts';
 import { LoginRequest, LoginResponse } from '../types';
 import { AppConstants } from '@/config/constants';
@@ -9,9 +9,15 @@ export function getJwtToken() {
 }
 
 export function signIn(payload: LoginRequest) {
-  return Post<BaseResponse<LoginResponse>>(API_AUTH_SIGN_IN_URI, payload);
+  return apiPost<LoginRequest, BaseResponse<LoginResponse>>({
+    url: API_AUTH_SIGN_IN_URI,
+    payload: payload,
+  });
 }
 
 export function signUp(payload: LoginRequest) {
-  return Post<BaseResponse<LoginResponse>>(API_AUTH_SIGN_UP_URI, payload);
+  return apiPost<LoginRequest, BaseResponse<LoginResponse>>({
+    url: API_AUTH_SIGN_UP_URI,
+    payload: payload,
+  });
 }

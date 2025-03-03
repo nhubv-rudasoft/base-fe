@@ -19,7 +19,7 @@ export function useSetSettings() {
         dispatch(setSettings(newSettings));
 
         // Persist to localStorage
-        localStorage.setItem(AppConstants.USER_SETTINGS, JSON.stringify(newSettings));
+        localStorage.setItem(AppConstants.USER_SETTINGS_PREFIX, JSON.stringify(newSettings));
       } catch (error) {
         console.error('Failed to save settings:', error);
       }

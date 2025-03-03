@@ -5,9 +5,9 @@ import * as yup from 'yup';
 import { LoginRequest } from '../types';
 import { Link } from 'react-router-dom';
 import { OAUTH2_GOOGLE_URL } from '@/config/env.ts';
-import { TextInput } from '@/shared/components/common/TextInput';
+import { TextInput } from '@/shared/components/common/TextInput/TextInput';
 import googleIcon from '@/assets/icons/google.svg';
-import Button from '@/shared/components/common/Button';
+import Button from '@/shared/components/common/Button/Button';
 
 const schema = yup.object().shape({
   email: yup.string().email('Invalid email').required('Email is required'),

@@ -7,7 +7,8 @@ import { UserUpdateAvatarRequest, UserUpdateProfileRequest } from '../types';
 import { IoCameraReverseOutline } from 'react-icons/io5';
 import { getFirstChar } from '@/utils/string-utils';
 import { useMutateGetFile } from '@/shared/hooks/fileHook';
-import { TextInput } from '@/shared/components/common/TextInput';
+import { TextInput } from '@/shared/components/common/TextInput/TextInput';
+import { AppConstants } from '@/config/constants';
 
 const schema = yup.object().shape({
   firstName: yup.string().required('First name is required'),
@@ -17,7 +18,7 @@ const schema = yup.object().shape({
 });
 
 export default function UserProfileForm() {
-  const { profile } = useGetUserProfile();
+  const { profile, isLoading } = useGetUserProfile();
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
 
   // Mutations
@@ -51,7 +52,7 @@ export default function UserProfileForm() {
 
   useEffect(() => {
     if (profile) {
-      getFileMutation.mutate({ fileId: profile.photoId });
+      getFileMutation.mutate({ fileId: Number(profile.photoId) });
       form.reset(profile);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -83,24 +84,22 @@ export default function UserProfileForm() {
               profile?.avatar ? 'bg-transparent' : 'bg-orange-900'
             }`}
           >
-            <IoCameraReverseOutline
-              size={24}
-              className='absolute z-10 hidden text-2xl text-white group-hover:block'
-            />
-            {(profile?.avatar == null || !avatarData) && (
+            {profile?.avatar == null && !avatarData && (
               <span className='text-2xl text-white uppercase'>
                 {getFirstChar(profile?.firstName || '')}
               </span>
             )}
-            {avatarData && (
-              <img
-                src={avatarUrl || ''}
-                alt='avatar'
-                className='h-full w-full rounded-full object-cover'
-              />
-            )}
 
-            {!avatarData && profile?.avatar && (
+            {profile?.provider === AppConstants.SYSTEM_SETTINGS.AUTH_PROVIDER.LOCAL &&
+              avatarUrl && (
+                <img
+                  src={avatarUrl}
+                  alt='avatar'
+                  className='h-full w-full rounded-full object-cover'
+                />
+              )}
+
+            {profile?.provider === AppConstants.SYSTEM_SETTINGS.AUTH_PROVIDER.GOOGLE && (
               <img
                 src={profile?.avatar}
                 alt='avatar'
@@ -108,15 +107,23 @@ export default function UserProfileForm() {
               />
             )}
 
-            <input
-              type='file'
-              className='hidden'
-              accept='image/jpeg,image/jpg,image/png'
-              onChange={handleAvatarChange}
-            />
+            {profile?.provider === AppConstants.SYSTEM_SETTINGS.AUTH_PROVIDER.LOCAL && (
+              <>
+                <IoCameraReverseOutline
+                  size={24}
+                  className='absolute z-10 hidden text-2xl text-white group-hover:block'
+                />
+
+                <input
+                  type='file'
+                  className='hidden'
+                  accept='image/jpeg,image/jpg,image/png'
+                  onChange={handleAvatarChange}
+                />
+              </>
+            )}
           </label>
         </div>
-
         <div className='grid grid-cols-2 gap-5'>
           <TextInput
             label='First Name'
@@ -129,6 +136,7 @@ export default function UserProfileForm() {
         <TextInput
           type='email'
           label='Email'
+          disabled={true}
           error={errors.email?.message}
           {...register('email')}
         />
@@ -140,7 +148,11 @@ export default function UserProfileForm() {
           {...register('phoneNumber')}
         />
 
-        <button type='submit' className='rounded-md bg-blue-500 p-2 text-sm text-white'>
+        <button
+          type='submit'
+          className='rounded-md bg-blue-500 p-2 text-sm text-white'
+          disabled={isLoading && updateProfileMutation.isPending}
+        >
           Update
         </button>
       </div>

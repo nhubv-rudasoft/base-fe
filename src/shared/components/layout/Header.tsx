@@ -4,7 +4,7 @@ import { HiMiniBars3BottomLeft } from 'react-icons/hi2';
 import { PiBellSimple, PiGearSix } from 'react-icons/pi';
 import logo from '/vite.svg';
 import { APP_NAME } from '@/config/env';
-import { DropdownDivider, DropdownItem, DropdownMenu } from '../common/DropdownMenu';
+import { DropdownDivider, DropdownItem, DropdownMenu } from '../common/DropdownMenu/DropdownMenu';
 import { useNavigate } from 'react-router-dom';
 import { useGetUserProfile } from '@/features/user/hooks/userHook';
 import { getFirstChar } from '@/utils/string-utils';

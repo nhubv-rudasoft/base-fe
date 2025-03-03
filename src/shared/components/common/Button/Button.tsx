@@ -16,7 +16,8 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 const buttonVariants = {
   default: 'bg-white text-black hover:bg-gray-50 border border-gray-300',
   primary: 'bg-blue-500 text-white border border-blue-500 hover:bg-blue-600 hover:border-blue-600',
-  secondary: 'bg-secondary text-primary border border-secondary hover:bg-secondary/80 hover:border-secondary/80',
+  secondary:
+    'bg-secondary text-primary border border-secondary hover:bg-secondary/80 hover:border-secondary/80',
   danger: 'bg-danger text-white border border-danger hover:bg-danger/80 hover:border-danger/80',
 };
 
@@ -36,19 +37,31 @@ const buttonFullWidth = {
   false: '',
 };
 
-export default function Button({ type = 'button', children, onClick, disabled, className, variant = 'primary', size = 'medium', icon, iconPosition = 'left', isFullWidth = true, isLoading = false }: ButtonProps) {
+export default function Button({
+  type = 'button',
+  children,
+  onClick,
+  disabled,
+  className,
+  variant = 'primary',
+  size = 'medium',
+  icon,
+  iconPosition = 'left',
+  isFullWidth = true,
+  isLoading = false,
+}: ButtonProps) {
   return (
     <button
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`rounded-md font-medium flex items-center justify-center cursor-pointer hover:shadow-sm transition-all duration-300 ${buttonVariants[variant]} ${buttonSizes[size]} ${buttonIconPositions[iconPosition]} ${buttonFullWidth[isFullWidth ? 'true' : 'false']} ${className}`}
+      className={`flex cursor-pointer items-center justify-center rounded-md font-medium transition-all duration-300 hover:shadow-sm ${buttonVariants[variant]} ${buttonSizes[size]} ${buttonIconPositions[iconPosition]} ${buttonFullWidth[isFullWidth ? 'true' : 'false']} ${className}`}
     >
       <>
         {icon && iconPosition === 'left' && (
           <>
             {isLoading ? (
-              <div className='animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white' />
+              <div className='h-5 w-5 animate-spin rounded-full border-t-2 border-b-2 border-white' />
             ) : (
               icon
             )}
@@ -60,4 +73,3 @@ export default function Button({ type = 'button', children, onClick, disabled, c
     </button>
   );
 }
-

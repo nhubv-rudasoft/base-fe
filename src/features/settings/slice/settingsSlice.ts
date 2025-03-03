@@ -4,9 +4,9 @@ import { Settings, SettingsState } from '../types/settings';
 
 const initialState: SettingsState = {
   isOpenSidebar:
-    JSON.parse(localStorage.getItem(AppConstants.USER_SETTINGS) || '{}')?.isOpenSidebar || false,
+    JSON.parse(localStorage.getItem(AppConstants.USER_SETTINGS_PREFIX) || '{}')?.isOpenSidebar || false,
   isDarkMode:
-    JSON.parse(localStorage.getItem(AppConstants.USER_SETTINGS) || '{}')?.isDarkMode || false,
+    JSON.parse(localStorage.getItem(AppConstants.USER_SETTINGS_PREFIX) || '{}')?.isDarkMode || false,
 };
 
 const settingsSlice = createSlice({

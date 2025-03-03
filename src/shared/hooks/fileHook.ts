@@ -17,7 +17,7 @@ export const useQueryGetFile = (fileId: number) => {
 };
 
 export const useMutateGetFile = () => {
-  const mutation = useMutationBase<any, { fileId: number }>(async ({ fileId }) => {
+  const mutation = useMutationBase<{ fileId: number }, any>(async ({ fileId }) => {
     return await getFile(fileId);
   });
 

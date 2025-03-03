@@ -3,20 +3,23 @@ import {
   UserUpdateProfileRequest,
   UserUpdateAvatarRequest,
 } from '@/features/user/types/userType.ts';
-import { Get, Put } from '@/config/axios.ts';
+import { apiGet, apiPut } from '@/config/axios.ts';
 import { BaseResponse } from '@/shared/types/baseResponseType';
 import {
   API_USER_GET_PROFILE_URI,
   API_USER_UPDATE_PROFILE_URI,
   API_USER_UPDATE_AVATAR_URI,
 } from '../constants';
+import { FileType } from '@/shared/types/fileType';
 
 /**
  * Get user profile
  * @returns UserProfileResponse
  */
 export function getUserProfile() {
-  return Get<BaseResponse<UserProfileResponse>>(API_USER_GET_PROFILE_URI);
+  return apiGet<null, BaseResponse<UserProfileResponse>>({
+    url: API_USER_GET_PROFILE_URI,
+  });
 }
 
 /**
@@ -25,7 +28,10 @@ export function getUserProfile() {
  * @returns UserProfileResponse
  */
 export function updateUserProfile(payload: UserUpdateProfileRequest) {
-  return Put<BaseResponse<UserProfileResponse>>(API_USER_UPDATE_PROFILE_URI, payload);
+  return apiPut<UserUpdateProfileRequest, BaseResponse<UserProfileResponse>>({
+    url: API_USER_UPDATE_PROFILE_URI,
+    payload: payload,
+  });
 }
 
 /**
@@ -40,10 +46,9 @@ export function updateUserAvatar(payload: UserUpdateAvatarRequest) {
     'Content-Type': 'multipart/form-data',
   };
 
-  return Put<BaseResponse<UserProfileResponse>>(
-    API_USER_UPDATE_AVATAR_URI,
-    formData,
-    null,
-    headers,
-  );
+  return apiPut<FormData, BaseResponse<FileType>>({
+    url: API_USER_UPDATE_AVATAR_URI,
+    payload: formData,
+    headers: headers,
+  });
 }
