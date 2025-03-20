@@ -1,0 +1,9 @@
+{
+  "name": "raptor",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ui/raptor/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project raptor --web",
+  "targets": {}
+}

@@ -14,7 +14,17 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@libs/auth": ["libs/auth/src/index.ts"],
+      "@libs/config": ["libs/config/src/index.ts"],
+      "@libs/data-access": ["libs/data-access/src/index.ts"],
+      "@libs/features/user-profile": ["libs/features/user-profile/src/index.ts"],
+      "@libs/ui/layouts": ["libs/ui/layouts/src/index.ts"],
+      "@libs/ui/provider": ["libs/ui/provider/src/index.ts"],
+      "@libs/ui/raptor": ["libs/ui/raptor/src/index.ts"],
+      "@libs/ui/router": ["libs/ui/router/src/index.ts"],
+      "@libs/utils": ["libs/utils/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
