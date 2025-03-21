@@ -5,7 +5,7 @@ export default {
   content: [
     './src/**/*.{ts,tsx}',
     '../../libs/ui/**/*.{ts,tsx}',
-    '../../libs/features/auth/**/*.{ts,tsx}',
+    '../../libs/auth/**/*.{ts,tsx}',
   ],
   theme: {
     extend: {

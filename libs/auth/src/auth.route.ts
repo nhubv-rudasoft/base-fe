@@ -2,7 +2,7 @@ import { RouterConfig } from '@libs/ui/router';
 import Oauth2RedirectPage from './pages/oauth2-redirect.page';
 import SignInPage from './pages/signin.page';
 import SignupPage from './pages/signup.page';
-
+import ForgotPasswordPage from './pages/forgot-password.page';
 const authRoutes: RouterConfig[] = [
   {
     path: 'signin',
@@ -14,6 +14,12 @@ const authRoutes: RouterConfig[] = [
     path: 'signup',
     element: SignupPage,
     title: 'Sign Up',
+    isLazy: false,
+  },
+  {
+    path: 'forgot-password',
+    element: ForgotPasswordPage,
+    title: 'Forgot Password',
     isLazy: false,
   },
   {

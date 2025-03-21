@@ -14,10 +14,15 @@ interface DropdownMenuProps
    * Size of the dropdown menu
    */
   size?: 'sm' | 'md' | 'lg';
+  /**
+   * Placement of the dropdown menu
+   */
+  placement?: 'bottom-start' | 'bottom-end' | 'top-start' | 'top-end';
 }
 
 type DropdownMenuContextType = {
   size: 'sm' | 'md' | 'lg';
+  placement?: 'bottom-start' | 'bottom-end' | 'top-start' | 'top-end';
 };
 
 /* ---------------------------------- Styles --------------------------------- */
@@ -80,18 +85,20 @@ const styles = {
 
 const DropdownMenuContext = React.createContext<DropdownMenuContextType>({
   size: 'md',
+  placement: 'bottom-start',
 });
 
 /* -------------------------------- Components ------------------------------- */
 
 const DropdownMenu = React.forwardRef<HTMLDivElement, DropdownMenuProps>((props, ref) => {
-  const { children, size = 'md', ...rootProps } = props;
+  const { children, size = 'md', placement = 'bottom-start', ...rootProps } = props;
 
   const contextValue = React.useMemo(
     () => ({
       size,
+      placement,
     }),
-    [size]
+    [size, placement]
   );
 
   return (
@@ -162,12 +169,18 @@ const DropdownMenuContent = React.forwardRef<
 >(({ className, sideOffset = 4, ...props }, ref) => {
   const context = React.useContext(DropdownMenuContext);
   const size = context.size || 'md';
+  const placement = context.placement || 'bottom-start';
+
+  const side = placement.split('-')[0] as 'top' | 'bottom';
+  const align = placement.split('-')[1] as 'start' | 'end';
 
   return (
     <DropdownMenuPrimitive.Portal>
       <DropdownMenuPrimitive.Content
         ref={ref}
         sideOffset={sideOffset}
+        side={side}
+        align={align}
         className={cn(styles.base.content, styles.size.content[size], className)}
         {...props}
       />

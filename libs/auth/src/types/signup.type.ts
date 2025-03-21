@@ -3,9 +3,4 @@ export interface SignUpRequestType {
   password: string;
   firstName: string;
   lastName: string;
-  phoneNumber: string;
-}
-
-export interface SignUpResponseType {
-  accessToken: string;
 }

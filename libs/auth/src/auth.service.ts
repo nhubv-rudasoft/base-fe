@@ -1,6 +1,8 @@
 import { baseApi, baseType } from '@libs/data-access';
 import { envConfig } from '@libs/config';
-import { SignInRequestType, SignInResponseType, SignUpResponseType } from './types';
+import { SignInRequestType, SignInResponseType } from './types';
+import { ForgotPasswordRequestType } from './types/forgot-password.type';
+import { ResetPasswordRequestType } from './types/reset-password.type';
 
 /**
  * @description sign in
@@ -19,8 +21,8 @@ export function signIn(payload: SignInRequestType) {
  * @param payload SignInRequestType
  * @returns SignUpResponseType response
  */
-export function signUp(payload: SignInRequestType) {
-  return baseApi.apiPost<SignInRequestType, baseType.ApiResponse<SignUpResponseType>>({
+export async function signUp(payload: SignInRequestType) {
+  return await baseApi.apiPost<SignInRequestType, baseType.ApiResponse<boolean>>({
     url: envConfig.api.commonApiUri.auth.signup,
     payload: payload,
   });
@@ -28,24 +30,36 @@ export function signUp(payload: SignInRequestType) {
 
 /**
  * @description forgot password
- * @param email string
+ * @param payload ForgotPasswordRequestType
  * @returns boolean response
  */
-export function forgotPassword(email: string) {
-  return baseApi.apiPost<{ email: string }, baseType.ApiResponse<boolean>>({
+export function forgotPassword(payload: ForgotPasswordRequestType) {
+  return baseApi.apiPost<ForgotPasswordRequestType, baseType.ApiResponse<boolean>>({
     url: envConfig.api.commonApiUri.auth.forgotPassword,
-    payload: { email },
+    payload: payload,
   });
 }
 
 /**
  * @description reset password
- * @param email string
+ * @param payload ResetPasswordRequestType
  * @returns boolean response
  */
-export function resetPassword(email: string) {
-  return baseApi.apiPost<{ email: string }, baseType.ApiResponse<boolean>>({
+export function resetPassword(payload: ResetPasswordRequestType) {
+  return baseApi.apiPost<ResetPasswordRequestType, baseType.ApiResponse<boolean>>({
     url: envConfig.api.commonApiUri.auth.resetPassword,
-    payload: { email },
+    payload: payload,
+  });
+}
+
+/**
+ * @description verify reset password token
+ * @param token string
+ * @returns boolean response
+ */
+export function verifyResetPasswordToken(token: string) {
+  return baseApi.apiPost<string, baseType.ApiResponse<boolean>>({
+    url: envConfig.api.commonApiUri.auth.verifyResetPasswordToken,
+    payload: token,
   });
 }

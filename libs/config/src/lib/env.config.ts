@@ -12,6 +12,7 @@ export const envConfig = {
         signup: import.meta.env['VITE_AUTH_API_SIGNUP_URI'],
         forgotPassword: import.meta.env['VITE_AUTH_API_FORGOT_PASSWORD_URI'],
         resetPassword: import.meta.env['VITE_AUTH_API_RESET_PASSWORD_URI'],
+        verifyResetPasswordToken: import.meta.env['VITE_AUTH_API_VERIFY_RESET_PASSWORD_TOKEN_URI'],
       },
       user: {
         profile: import.meta.env['VITE_USER_API_URI'],

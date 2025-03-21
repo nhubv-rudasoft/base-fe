@@ -159,12 +159,14 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
             </div>
           )}
         </div>
-
-        {(helperText || error) && (
-          <p className={cn('text-xs', hasError ? 'text-error' : 'text-neutral500')}>
-            {error || helperText}
-          </p>
-        )}
+        <p
+          className={cn(
+            'm-0 p-0 inline-block h-4 text-xs',
+            hasError ? 'text-error' : 'text-neutral500'
+          )}
+        >
+          {(helperText || error) && <span>{error || helperText}</span>}
+        </p>
       </div>
     );
   }

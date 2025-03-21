@@ -5,7 +5,5 @@ export interface SignInRequestType {
 
 export interface SignInResponseType {
   accessToken: string;
-  refreshToken: string;
-  expiresIn: number;
   tokenType: string;
 }

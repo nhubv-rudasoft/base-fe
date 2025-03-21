@@ -1,4 +1,15 @@
-import { Bell, Menu, Settings } from 'lucide-react';
+import { AppConstantsConfig } from '@libs/config';
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuShortcut,
+} from '@libs/ui/raptor';
+import { Bell, CreditCard, LogOut, Menu, Settings, Settings2, User } from 'lucide-react';
 import { useCallback, useState, useEffect } from 'react';
 
 export function Header() {
@@ -19,7 +30,8 @@ export function Header() {
   };
 
   const handleLogout = () => {
-    console.log('logout');
+    localStorage.removeItem(AppConstantsConfig.LOCALSTORAGE.JWT_TOKEN);
+    window.location.href = '/auth/signin';
   };
 
   return (
@@ -61,9 +73,40 @@ export function Header() {
           </button>
 
           {/* Profile Dropdown */}
-          <span className='flex h-8 w-8 items-center justify-center rounded-full bg-yellow-500 text-sm font-semibold text-white'>
-            {'A'}
-          </span>
+          <DropdownMenu size='md' placement='bottom-end'>
+            <DropdownMenuTrigger asChild>
+              <span className='flex h-8 w-8 items-center justify-center rounded-full bg-yellow-500 text-sm font-semibold text-white'>
+                {'A'}
+              </span>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className='w-56'>
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <DropdownMenuItem>
+                  <User className='mr-2 h-4 w-4' />
+                  <span>Profile</span>
+                  <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <CreditCard className='mr-2 h-4 w-4' />
+                  <span>Billing</span>
+                  <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Settings2 className='mr-2 h-4 w-4' />
+                  <span>Settings</span>
+                  <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className='text-error' onClick={handleLogout}>
+                <LogOut className='mr-2 h-4 w-4' />
+                <span>Log out</span>
+                <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </header>

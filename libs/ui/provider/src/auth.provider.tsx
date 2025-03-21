@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext, signIn } from '@libs/auth';
 import { AppConstantsConfig } from '@libs/config';
 import { SignInRequestType } from '@libs/auth';
+import toast from 'react-hot-toast';
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!getJWT());
@@ -19,7 +20,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setIsAuthenticated(true);
       navigate('/dashboard');
     } else {
-      console.error(response);
+      toast.error(response.responseMessage);
     }
     setIsLoading(false);
   };

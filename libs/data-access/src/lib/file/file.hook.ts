@@ -1,6 +1,7 @@
+import { useMutationBase } from '../base/hooks/query.hook';
+import { useQueryBase } from '../base/hooks/query.hook';
 import { getFile } from './file.service';
 import { FilePropsType } from './file.type';
-import { useMutationBase, useQueryBase } from '../base/hooks';
 
 export const useQueryGetFile = (fileId: number) => {
   const query = useQueryBase(['getFile', fileId], async () => {
