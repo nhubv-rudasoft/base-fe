@@ -19,7 +19,15 @@ import {
   DropdownMenuRadioGroup,
 } from './lib/dropdown-menu/dropdown-menu';
 import { Button } from './lib/button/button';
-
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from './lib/dialog/dialog';
 export {
   TextInput,
   NumberInput,
@@ -40,4 +48,11 @@ export {
   DropdownMenuSubTrigger,
   DropdownMenuRadioGroup,
   Button,
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
 };

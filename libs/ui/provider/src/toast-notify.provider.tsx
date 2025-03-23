@@ -1,6 +1,6 @@
 import { Toaster } from 'react-hot-toast';
 
-export const ToastNotify = () => {
+export const ToastNotifyProvider = () => {
   return (
     <Toaster
       containerClassName='mt-4 mr-4'
@@ -15,4 +15,4 @@ export const ToastNotify = () => {
   );
 };
 
-export default ToastNotify;
+export default ToastNotifyProvider;

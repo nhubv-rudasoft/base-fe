@@ -75,32 +75,32 @@ export function Header() {
           {/* Profile Dropdown */}
           <DropdownMenu size='md' placement='bottom-end'>
             <DropdownMenuTrigger asChild>
-              <span className='flex h-8 w-8 items-center justify-center rounded-full bg-yellow-500 text-sm font-semibold text-white'>
+              <span className='flex h-8 w-8 items-center justify-center rounded-full bg-yellow-500 text-sm font-semibold text-white cursor-pointer'>
                 {'A'}
               </span>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className='w-56'>
+            <DropdownMenuContent className='w-56 mt-4'>
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem>
+                <DropdownMenuItem className={'cursor-pointer'}>
                   <User className='mr-2 h-4 w-4' />
                   <span>Profile</span>
                   <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem className={'cursor-pointer'}>
                   <CreditCard className='mr-2 h-4 w-4' />
                   <span>Billing</span>
                   <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem className={'cursor-pointer'}>
                   <Settings2 className='mr-2 h-4 w-4' />
                   <span>Settings</span>
                   <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className='text-error' onClick={handleLogout}>
+              <DropdownMenuItem className='text-error cursor-pointer' onClick={handleLogout}>
                 <LogOut className='mr-2 h-4 w-4' />
                 <span>Log out</span>
                 <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
